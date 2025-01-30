@@ -84,6 +84,12 @@ extract_files() {
         mv "$main_dir"* "$main_dir".[!.]* . 2>/dev/null || true
         rmdir "$main_dir"
     fi
+
+    # Remove __MACOSX if it exists
+    if [ -d "__MACOSX" ]; then
+        echo "Removing __MACOSX directory..."
+        rm -rf __MACOSX
+    fi
 }
 
 # Function to update WordPress configuration
