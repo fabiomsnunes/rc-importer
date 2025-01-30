@@ -132,6 +132,12 @@ change_domain() {
     wp cache flush || { echo "Error: Failed to flush cache"; exit 1; }
 }
 
+# Function to create migrated.html
+create_migrated_file() {
+    echo "<h1>Migrated!</h1>" > migrated.html
+    echo "Created migrated.html file."
+}
+
 # Function to clean up temporary files
 clean_up() {
     echo "Cleaning up..."
@@ -164,6 +170,7 @@ main() {
     update_wp_config
     import_database
     change_domain "$new_domain"
+    create_migrated_file
 
     echo
     echo "***************************************"
