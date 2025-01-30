@@ -17,14 +17,22 @@ usage() {
     echo "If new_domain is not provided, the domain will not be changed."
 }
 
-# Function to check if required commands are available
+# Function to check if required commands and zip file are available
 check_requirements() {
+    # Check if required commands are available
     for cmd in "${REQUIRED_COMMANDS[@]}"; do
         if ! command -v "$cmd" &> /dev/null; then
             echo "Error: Required command '$cmd' not found. Please install it and try again."
             exit 1
         fi
     done
+
+    # Check if the project ZIP file exists
+    local project="$1"
+    if [[ ! -f "$project.zip" ]]; then
+        echo "Error: The zip file '$project.zip' does not exist."
+        exit 1
+    fi
 }
 
 # Function to find the project archive file
@@ -144,7 +152,7 @@ main() {
     local project="$1"
     local new_domain="${2:-}"
 
-    check_requirements
+    check_requirements "$project"
     local archive_file=$(find_archive_file "$project")
     extract_files "$archive_file"
     update_wp_config
